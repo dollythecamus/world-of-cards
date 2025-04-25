@@ -1,10 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://jdft6yahmoim"]
+[gd_scene load_steps=4 format=3 uid="uid://jdft6yahmoim"]
 
-[ext_resource type="Script" uid="uid://dde68fvlgjry3" path="res://world/cards_generator.gd" id="1_tcf2h"]
+[ext_resource type="Script" uid="uid://dde68fvlgjry3" path="res://world/world_generator.gd" id="1_tcf2h"]
+[ext_resource type="Script" uid="uid://cexnlkpfoo1um" path="res://player/player_cards.gd" id="2_4717r"]
+[ext_resource type="Script" uid="uid://5inottefdrjy" path="res://player/player.gd" id="3_h5o24"]
 
-[node name="World" type="Node2D"]
+[node name="Game" type="Node2D"]
 
-[node name="WorldCards" type="Node2D" parent="."]
+[node name="World" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(242, -67)
 script = ExtResource("1_tcf2h")
 
 [node name="PlayerCards" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_4717r")
+
+[node name="Player" type="Node2D" parent="."]
+script = ExtResource("3_h5o24")
+
+[connection signal="spawned_player" from="Player" to="PlayerCards" method="_on_player_spawned_player"]

@@ -14,3 +14,7 @@ config/name="world-of-cards"
 run/main_scene="uid://jdft6yahmoim"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameData="*res://gameData.gd"

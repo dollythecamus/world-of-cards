@@ -1,14 +1,16 @@
 [gd_scene load_steps=2 format=3 uid="uid://crjphf7f3pcep"]
 
-[ext_resource type="Script" uid="uid://sp030nwrsguq" path="res://world/world-card.gd" id="1_rjlel"]
+[ext_resource type="Script" uid="uid://sp030nwrsguq" path="res://world/world_card.gd" id="1_ktog3"]
 
-[node name="Card" type="Node2D"]
-script = ExtResource("1_rjlel")
+[node name="WorldCard" type="Node2D"]
+script = ExtResource("1_ktog3")
 metadata/_edit_use_anchors_ = true
 
 [node name="Color" type="ColorRect" parent="."]
-offset_right = 128.0
-offset_bottom = 128.0
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 96.0
+offset_bottom = 64.0
 scale = Vector2(0.5, 1)
 color = Color(0.837045, 0.722357, 0.677166, 1)
 

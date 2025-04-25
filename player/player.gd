@@ -4,7 +4,7 @@ var EXAMPLE_DATA = {
 	"character":
 	{
 		"name": "John Doe",
-		"card": {
+		"character_card": {
 			"name": "Scholar",
 			"description": "Study the world",
 		},
@@ -46,5 +46,21 @@ var EXAMPLE_DATA = {
 	},
 }
 
+var player_data = EXAMPLE_DATA
+
+signal spawned_player(data)
+
 func _ready() -> void:
-	pass
+	spawn_random_player_data()
+
+func spawn_random_player_data() -> void:
+	var random_character = GameData.gd.character_cards.pick_random()
+	var base_character = GameData.gd.BaseCharacter
+	var actions = base_character.base_actions
+	actions.append_array(random_character.base_actions)
+	
+	player_data.character.character_card = random_character
+	player_data.actions = actions
+	
+	spawned_player.emit(player_data)
+	
