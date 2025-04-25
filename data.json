@@ -1,0 +1,98 @@
+{
+	"action_cards": [
+		{
+			"name": "Walk To",
+			"description": "Walk to an adjacent Card",
+			"cost_currency": "time",
+			"cost": 5
+		},
+		{
+			"name": "Explore",
+			"description": "Uncover an adjacent Card",
+			"cost_currency": "time",
+			"cost": 10
+		},
+		{
+			"name": "Study",
+			"description": "Study a location.",
+			"cost_currency": "time",
+			"cost": 15
+		},
+		{
+			"name": "Fight",
+			"description": "Fight an Enemy",
+			"cost_currency": "energy",
+			"cost": 10
+		},
+		{
+			"name": "Sing",
+			"description": "Sing a song",
+			"cost_currency": "inspiration",
+			"cost": 5
+		},
+		{
+			"name": "Charm",
+			"description": "Charm a character",
+			"cost_currency": "inspiration",
+			"cost": 10
+		},
+		{
+			"name": "Cast Spell",
+			"description": "Cast a spell",
+			"cost_currency": "magic",
+			"cost": 20
+		},
+		{
+			"name": "Rest",
+			"description": "Pass the time, recover energy",
+			"cost_currency": "time",
+			"cost": 5
+		},
+		{
+			"name": "Trade",
+			"description": "Buy and Sell items",
+			"cost_currency": "gold",
+			"cost": 0
+		}
+	],
+	"character_cards": [
+		{
+			"name": "BASE",
+			"description":"Base Character",
+			"base_actions": [
+				"Walk To",
+				"Explore",
+				"Rest"
+			]
+		},
+		{
+			"name": "Mage",
+			"description": "Cast Spells",
+			"base_actions": [
+				"Cast Spell"
+			]
+		},
+		{
+			"name": "Warrior",
+			"description": "Fight Monsters",
+			"base_actions": [
+				"Fight"
+			]
+		},
+		{
+			"name": "Scholar",
+			"description": "Study the world",
+			"base_actions": [
+				"Study"
+			]
+		},
+		{
+			"name": "Bard",
+			"description": "Sing and Charm",
+			"base_actions": [
+				"Sing",
+				"Charm"
+			]
+		}
+	]
+}

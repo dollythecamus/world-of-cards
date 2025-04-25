@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://jdft6yahmoim"]
+
+[ext_resource type="Script" uid="uid://dde68fvlgjry3" path="res://world/cards_generator.gd" id="1_tcf2h"]
+
+[node name="World" type="Node2D"]
+
+[node name="WorldCards" type="Node2D" parent="."]
+script = ExtResource("1_tcf2h")
+
+[node name="PlayerCards" type="Node2D" parent="."]
