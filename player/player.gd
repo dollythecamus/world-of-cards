@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 var EXAMPLE_DATA = {
 	"character":
@@ -50,6 +50,12 @@ var player_data = EXAMPLE_DATA
 
 signal spawned_player(data)
 
+var chunk = Vector2i():
+	get():
+		chunk = %World.get_chunk(position)
+		return chunk
+var indexed_position = Vector2i()
+
 func _ready() -> void:
 	spawn_random_player_data()
 
@@ -63,4 +69,3 @@ func spawn_random_player_data() -> void:
 	player_data.actions = actions
 	
 	spawned_player.emit(player_data)
-	

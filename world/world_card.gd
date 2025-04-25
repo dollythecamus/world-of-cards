@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 enum CardType { UNEXPLORED, FOREST, VILLAGE, DUNGEON }
 
@@ -35,12 +35,12 @@ func _on_color_gui_input(event: InputEvent) -> void:
 		pass
 		#flip_card()
 
-func is_mouse_over() -> bool:
-	var mouse_pos = get_global_mouse_position()
-	return $Color.get_global_rect().has_point(mouse_pos)
+func is_pos_over(pos) -> bool:
+	return $Color.get_global_rect().has_point(pos)
 
-func action(card, neighbours):
-	print("does some function based on the card")
+func action(card):
+	var neighbours = get_parent().get_neighbours(self)
+	
 	if card.data.name == "Explore":
 		for neighbour in neighbours:
 			neighbour.flip()

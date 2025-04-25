@@ -1,21 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://jdft6yahmoim"]
+[gd_scene load_steps=6 format=3 uid="uid://jdft6yahmoim"]
 
 [ext_resource type="Script" uid="uid://dde68fvlgjry3" path="res://world/world_generator.gd" id="1_tcf2h"]
-[ext_resource type="Script" uid="uid://cexnlkpfoo1um" path="res://player/player_cards.gd" id="2_4717r"]
+[ext_resource type="Script" uid="uid://cexnlkpfoo1um" path="res://player/cards_tray.gd" id="2_4717r"]
 [ext_resource type="Script" uid="uid://5inottefdrjy" path="res://player/player.gd" id="3_h5o24"]
+[ext_resource type="Texture2D" uid="uid://cu3fgcoqy14yf" path="res://icon.svg" id="3_mmdvd"]
+[ext_resource type="Script" uid="uid://2p4v1nfjhlg3" path="res://player/camera_controls.gd" id="4_h5o24"]
 
 [node name="Game" type="Node2D"]
 
 [node name="World" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(242, -67)
+z_index = -500
 script = ExtResource("1_tcf2h")
 
-[node name="PlayerCards" type="Node2D" parent="."]
+[node name="Player" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(817, 439)
+script = ExtResource("3_h5o24")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("3_mmdvd")
+
+[node name="Label" type="Label" parent="Player"]
+offset_left = -36.0
+offset_top = 46.0
+offset_right = 36.0
+offset_bottom = 69.0
+text = "PLAYER :)"
+
+[node name="CardsTray" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_4717r")
 
-[node name="Player" type="Node2D" parent="."]
-script = ExtResource("3_h5o24")
+[node name="ColorRect" type="ColorRect" parent="CardsTray"]
+z_index = -200
+offset_left = -180.0
+offset_top = -110.0
+offset_right = 180.0
+offset_bottom = 110.0
+mouse_filter = 1
+color = Color(0.411496, 0.269628, 0.177532, 1)
 
-[connection signal="spawned_player" from="Player" to="PlayerCards" method="_on_player_spawned_player"]
+[node name="Camera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(699, 323)
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("4_h5o24")
+
+[connection signal="spawned_player" from="Player" to="CardsTray" method="_on_spawned_player"]

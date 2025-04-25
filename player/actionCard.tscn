@@ -1,24 +1,34 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3ndwyvswodvd"]
+[gd_scene load_steps=3 format=3 uid="uid://b3ndwyvswodvd"]
 
-[ext_resource type="Script" uid="uid://dl0ovahykxiyv" path="res://player/action_card.gd" id="1_b354u"]
+[ext_resource type="Script" uid="uid://decxmnr70r84b" path="res://player/action_card.gd" id="1_b354u"]
 
-[node name="ActionCard" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b354u"]
+size = Vector2(125, 130)
+
+[node name="ActionCard" type="Area2D"]
+priority = 1000
 script = ExtResource("1_b354u")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -32.0
+[node name="Sprite" type="ColorRect" parent="."]
+offset_left = -63.0
 offset_top = -64.0
-offset_right = 32.0
+offset_right = 61.0
 offset_bottom = 64.0
+mouse_filter = 1
 color = Color(0.329884, 0.578245, 0.62172, 1)
 
-[node name="Label" type="Label" parent="ColorRect"]
+[node name="Label" type="Label" parent="Sprite"]
 layout_mode = 0
-offset_right = 64.0
+offset_right = 122.0
 offset_bottom = 128.0
 mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "ACTION"
 autowrap_mode = 3
 
-[connection signal="gui_input" from="ColorRect" to="." method="_on_rect_gui_input"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_b354u")
+
+[connection signal="mouse_entered" from="." to="." method="_mouse_enter"]
+[connection signal="mouse_exited" from="." to="." method="_mouse_exit"]

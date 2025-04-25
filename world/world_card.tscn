@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://crjphf7f3pcep"]
+[gd_scene load_steps=3 format=3 uid="uid://crjphf7f3pcep"]
 
 [ext_resource type="Script" uid="uid://sp030nwrsguq" path="res://world/world_card.gd" id="1_ktog3"]
 
-[node name="WorldCard" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktog3"]
+size = Vector2(66, 126)
+
+[node name="WorldCard" type="Area2D"]
 script = ExtResource("1_ktog3")
 metadata/_edit_use_anchors_ = true
 
@@ -12,6 +15,10 @@ offset_top = -64.0
 offset_right = 96.0
 offset_bottom = 64.0
 scale = Vector2(0.5, 1)
+mouse_filter = 1
 color = Color(0.837045, 0.722357, 0.677166, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ktog3")
 
 [connection signal="gui_input" from="Color" to="." method="_on_color_gui_input"]
