@@ -1,24 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://crjphf7f3pcep"]
+[gd_scene load_steps=7 format=3 uid="uid://crjphf7f3pcep"]
 
 [ext_resource type="Script" uid="uid://sp030nwrsguq" path="res://world/world_card.gd" id="1_ktog3"]
 
+[sub_resource type="Gradient" id="Gradient_p4nyk"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n0l7r"]
+gradient = SubResource("Gradient_p4nyk")
+width = 140
+height = 260
+fill = 1
+fill_from = Vector2(0.495413, 0.481651)
+
+[sub_resource type="Gradient" id="Gradient_ktog3"]
+colors = PackedColorArray(0.278431, 0.403922, 0, 1, 0.423233, 0.60779, 0.743517, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_p4nyk"]
+gradient = SubResource("Gradient_ktog3")
+width = 140
+height = 260
+fill_from = Vector2(0.214286, 0.675214)
+fill_to = Vector2(0.642857, 0.418803)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ktog3"]
-size = Vector2(66, 126)
+size = Vector2(143, 258)
 
 [node name="WorldCard" type="Area2D"]
 script = ExtResource("1_ktog3")
 metadata/_edit_use_anchors_ = true
 
-[node name="Color" type="ColorRect" parent="."]
-offset_left = -32.0
-offset_top = -64.0
-offset_right = 96.0
-offset_bottom = 64.0
-scale = Vector2(0.5, 1)
-mouse_filter = 1
-color = Color(0.837045, 0.722357, 0.677166, 1)
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Back" type="Sprite2D" parent="Visual"]
+z_index = 1
+texture = SubResource("GradientTexture2D_n0l7r")
+
+[node name="Front" type="Sprite2D" parent="Visual"]
+z_index = -1
+texture = SubResource("GradientTexture2D_p4nyk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ktog3")
-
-[connection signal="gui_input" from="Color" to="." method="_on_color_gui_input"]
+debug_color = Color(0, 0.6, 0.701961, 0)

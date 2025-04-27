@@ -1,8 +1,11 @@
 extends Node2D
+class_name WorldGenerator
 
 const CARD_SCENE = preload("res://world/world_card.tscn")
-const SPACING_X = 76
-const SPACING_Y = 144
+@warning_ignore("integer_division")
+const SPACING_X = WorldCard.WIDTH + WorldCard.WIDTH / 6
+@warning_ignore("integer_division")
+const SPACING_Y = WorldCard.HEIGHT + WorldCard.HEIGHT / 10
 const CHUNK_WIDTH = 24
 const CHUNK_HEIGHT = 10
 const CHUNKS_FILE = "user://chunks.save"

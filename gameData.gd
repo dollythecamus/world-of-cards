@@ -15,4 +15,5 @@ func get_game_data_from_json():
 	gd = JSON.parse_string(file_text)
 
 func _init():
+	randomize()
 	get_game_data_from_json()

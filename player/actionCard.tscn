@@ -1,34 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3ndwyvswodvd"]
+[gd_scene load_steps=5 format=3 uid="uid://b3ndwyvswodvd"]
 
 [ext_resource type="Script" uid="uid://decxmnr70r84b" path="res://player/action_card.gd" id="1_b354u"]
 
+[sub_resource type="Gradient" id="Gradient_b354u"]
+colors = PackedColorArray(0.10267, 0.17385, 0.395686, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bm6v5"]
+gradient = SubResource("Gradient_b354u")
+width = 90
+height = 140
+fill = 1
+fill_from = Vector2(0.445394, 0.482906)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b354u"]
-size = Vector2(125, 130)
+size = Vector2(89, 140)
 
 [node name="ActionCard" type="Area2D"]
-priority = 1000
 script = ExtResource("1_b354u")
 
-[node name="Sprite" type="ColorRect" parent="."]
-offset_left = -63.0
-offset_top = -64.0
-offset_right = 61.0
-offset_bottom = 64.0
-mouse_filter = 1
-color = Color(0.329884, 0.578245, 0.62172, 1)
+[node name="Visual" type="Node2D" parent="."]
 
-[node name="Label" type="Label" parent="Sprite"]
-layout_mode = 0
-offset_right = 122.0
-offset_bottom = 128.0
+[node name="Back" type="Sprite2D" parent="Visual"]
+
+[node name="Front" type="Sprite2D" parent="Visual"]
+texture = SubResource("GradientTexture2D_bm6v5")
+
+[node name="Label" type="Label" parent="Visual/Front"]
+offset_left = -46.0
+offset_top = -67.0
+offset_right = 76.0
+offset_bottom = 61.0
 mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "ACTION"
 autowrap_mode = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.5, 0)
 shape = SubResource("RectangleShape2D_b354u")
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [connection signal="mouse_entered" from="." to="." method="_mouse_enter"]
 [connection signal="mouse_exited" from="." to="." method="_mouse_exit"]

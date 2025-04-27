@@ -1,5 +1,5 @@
 extends Area2D
-class_name Card
+class_name ActionCard
 # Static variables
 static var cards: Array = []
 static var card_sort_position := Vector2(0, 0)
@@ -11,7 +11,7 @@ static var height := 255.0
 # Instance vars
 var card_sort_index := -1
 var sorted_position := Vector2.ZERO
-var sprite_rest_position := Vector2(-32, -64)
+var sprite_rest_position := Vector2(0, 0)
 var sorted_rotation := 0.0
 var is_mouse_dragging := false
 var is_mouse_over := false
@@ -29,11 +29,14 @@ var is_close_threshold := 21.0
 var data = {}
 
 # Signals
+@warning_ignore("unused_signal")
 signal dropped(card)
 
 # Nodes
-@onready var visual = $Sprite
-@onready var label = $Sprite/Label
+@onready var visual = $Visual
+@onready var visual_front = $Visual/Front
+@onready var visual_back = $Visual/Back
+@onready var label = $Visual/Front/Label
 
 var start_color := Color(1, 1, 1)
 var dragging_opacity := 0.5
@@ -84,15 +87,15 @@ func _process(delta):
 	
 	# not doing rotation anymore :)
 	#visual.rotation += angular_velocity * angular_speed * delta
-	visual.position += sprite_velocity * drag_speed * delta
 	position += velocity * drag_speed * delta
+	visual.position += sprite_velocity * drag_speed * delta
 
-func target_position(velocity: Vector2, current: Vector2, target: Vector2) -> Vector2:
-	return velocity.move_toward(target - current, drag_speed);
+func target_position(vel: Vector2, current: Vector2, target: Vector2) -> Vector2:
+	return vel.move_toward(target - current, drag_speed);
 
-func target_rotation(velocity : float, current: float, target: float) -> float:
+func target_rotation(vel : float, current: float, target: float) -> float:
 	var difference = angle_difference(current, target);
-	return move_toward(velocity, difference, angular_speed);  
+	return move_toward(vel, difference, angular_speed);  
 
 func _input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -131,13 +134,14 @@ func set_opacity(opacity: float):
 	modulate = col
 
 # Positioning helpers
-static func get_point_on_line(i: int, max: int) -> Vector2:
+static func get_point_on_line(i: int, _max: int) -> Vector2:
 	var s = card_sort_position
 	var dir = Vector2.RIGHT
 	var bump := Vector2.ZERO
-	var index := i - int(max / 2)
+	@warning_ignore("integer_division")
+	var index := i - int(_max / 2)
 
-	if is_even(max):
+	if is_even(_max):
 		bump.y = -30.0 / max(1.0, abs(index + 0.5))
 		return s + dir * (index * width + width * 0.5) + bump
 	else:
@@ -148,10 +152,11 @@ static func get_point_on_line(i: int, max: int) -> Vector2:
 			bump.y = 30.0 / max(1.0, abs(index))
 			return s + dir * (index * width) - bump
 
-static func get_rotation_on_line(i: int, max: int) -> float:
-	var index := i - int(max / 2)
+static func get_rotation_on_line(i: int, _max: int) -> float:
+	@warning_ignore("integer_division")
+	var index := i - int(_max / 2)
 	var angle := float(index) * -15.0
-	if is_even(max):
+	if is_even(_max):
 		angle -= 7.5
 	return deg_to_rad(angle)
 
@@ -173,5 +178,8 @@ func dropped_action():
 			closest_area = area
 
 	if closest_area:
+		# TODO: add condition for selecting a valid area with the action
+		
 		# closest area is the world card which this dropped card is on top of.
-		closest_area.action(self)
+		if closest_area is WorldCard:
+			closest_area.action(self)

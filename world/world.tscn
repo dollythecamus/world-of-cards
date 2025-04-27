@@ -43,7 +43,7 @@ color = Color(0.411496, 0.269628, 0.177532, 1)
 
 [node name="Camera" type="Camera2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(699, 323)
+position = Vector2(520, 323)
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("4_h5o24")
 
