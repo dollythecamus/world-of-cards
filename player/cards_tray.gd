@@ -1,18 +1,14 @@
 extends Node2D
-const ACTION_CARD_SCENE = preload("res://player/actionCard.tscn")
+const ACTION_CARD_SCENE = preload("res://player/action/actionCard.tscn")
 
 # Adjust this to wherever you want the player hand to start
 var hand_origin = Vector2(0, 0)
-var card_spacing = 68
 
 func spawn_action_hand(player_actions):
 	for i in range(player_actions.size()):
 		var card = ACTION_CARD_SCENE.instantiate()
-		card.position = hand_origin + Vector2(i * card_spacing, 0)
-		
 		var action_card_data = GameData.get_action_card(player_actions[i])
 		card.data = action_card_data  # Custom method on the ActionCard
-		# card.connect("dropped", %World._on_card_dropped)
 		
 		add_child(card)
 

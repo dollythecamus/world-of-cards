@@ -9,13 +9,15 @@
 			"name": "Walk To",
 			"description": "Walk to an adjacent Card",
 			"cost_currency": "time",
-			"cost": 5.0
+			"cost": 5.0,
+			"condition": "player_adjacent"
 		},
 		{
 			"name": "Explore",
 			"description": "Uncover an adjacent Card",
 			"cost_currency": "time",
-			"cost": 10.0
+			"cost": 10.0,
+			"condition": "player_adjacent"
 		},
 		{
 			"name": "Study",

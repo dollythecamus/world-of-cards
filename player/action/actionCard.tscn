@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b3ndwyvswodvd"]
 
-[ext_resource type="Script" uid="uid://decxmnr70r84b" path="res://player/action_card.gd" id="1_b354u"]
+[ext_resource type="Script" uid="uid://decxmnr70r84b" path="res://player/action/action_card.gd" id="1_b354u"]
 
 [sub_resource type="Gradient" id="Gradient_b354u"]
 colors = PackedColorArray(0.10267, 0.17385, 0.395686, 1, 1, 1, 1, 1)
@@ -28,8 +28,8 @@ texture = SubResource("GradientTexture2D_bm6v5")
 [node name="Label" type="Label" parent="Visual/Front"]
 offset_left = -46.0
 offset_top = -67.0
-offset_right = 76.0
-offset_bottom = 61.0
+offset_right = 40.0
+offset_bottom = 67.0
 mouse_filter = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "ACTION"

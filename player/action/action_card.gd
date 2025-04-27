@@ -5,8 +5,8 @@ static var cards: Array = []
 static var card_sort_position := Vector2(0, 0)
 static var is_sorted := false
 
-static var width := 125.0
-static var height := 255.0
+static var width := 90.0
+static var height := 135.0
 
 # Instance vars
 var card_sort_index := -1
@@ -20,8 +20,8 @@ var velocity := Vector2.ZERO
 var sprite_velocity := Vector2.ZERO
 var angular_velocity := 0.0
 
-var drag_speed := 20.0
-var angular_speed := 1.0
+var drag_speed := 35.0
+var angular_speed := 255.0
 var mouse_over_offset := Vector2(0, -20)
 var is_close_threshold := 21.0
 
@@ -74,27 +74,27 @@ func _process(delta):
 		if is_mouse_over:
 			velocity = target_position(velocity, position, sorted_position)
 			sprite_velocity = target_position(sprite_velocity, visual.position, sprite_rest_position + mouse_over_offset)
-			#angular_velocity = target_rotation(angular_velocity, visual.rotation_degrees, 0.0)
+			angular_velocity = target_rotation(angular_velocity, visual.rotation, 0.0)
 		else:
 			velocity = target_position(velocity, position, sorted_position)
 			sprite_velocity = target_position(sprite_velocity, visual.position, sprite_rest_position)
-			#angular_velocity = target_rotation(angular_velocity, visual.rotation_degrees, sorted_rotation)
+			angular_velocity = target_rotation(angular_velocity, visual.rotation, sorted_rotation)
 	else:
 		var target = get_global_mouse_position()
 		velocity = target_position(velocity, position, target)
 		sprite_velocity = target_position(sprite_velocity, visual.position, sprite_rest_position)
-		# angular_velocity = target_rotation(angular_velocity, visual.rotation_degrees, 0.0)
+		angular_velocity = target_rotation(angular_velocity, visual.rotation, 0.0)
 	
 	# not doing rotation anymore :)
-	#visual.rotation += angular_velocity * angular_speed * delta
-	position += velocity * drag_speed * delta
+	visual.rotation += angular_velocity * angular_speed * delta
 	visual.position += sprite_velocity * drag_speed * delta
+	position += velocity * drag_speed * delta
 
 func target_position(vel: Vector2, current: Vector2, target: Vector2) -> Vector2:
 	return vel.move_toward(target - current, drag_speed);
 
 func target_rotation(vel : float, current: float, target: float) -> float:
-	var difference = angle_difference(current, target);
+	var difference = angle_difference(deg_to_rad(current), deg_to_rad(target));
 	return move_toward(vel, difference, angular_speed);  
 
 func _input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> void:
@@ -138,26 +138,24 @@ static func get_point_on_line(i: int, _max: int) -> Vector2:
 	var s = card_sort_position
 	var dir = Vector2.RIGHT
 	var bump := Vector2.ZERO
-	@warning_ignore("integer_division")
-	var index := i - int(_max / 2)
+	var index := i - int(_max * .5)
 
 	if is_even(_max):
-		bump.y = -30.0 / max(1.0, abs(index + 0.5))
+		bump.y = -55.0 / max(1.0, abs(index + 0.5))
 		return s + dir * (index * width + width * 0.5) + bump
 	else:
 		if index == 0:
-			bump.y = -35.0
+			bump.y = -45.0
 			return s + bump
 		else:
 			bump.y = 30.0 / max(1.0, abs(index))
 			return s + dir * (index * width) - bump
 
 static func get_rotation_on_line(i: int, _max: int) -> float:
-	@warning_ignore("integer_division")
-	var index := i - int(_max / 2)
-	var angle := float(index) * -15.0
+	var index := i - int(_max * .5)
+	var angle = index * 10.0
 	if is_even(_max):
-		angle -= 7.5
+		angle += 10.0 * .5
 	return deg_to_rad(angle)
 
 static func is_even(i: int) -> bool:
@@ -183,3 +181,6 @@ func dropped_action():
 		# closest area is the world card which this dropped card is on top of.
 		if closest_area is WorldCard:
 			closest_area.action(self)
+
+func player_adjacent():
+	pass
