@@ -20,6 +20,8 @@ func _exit_tree():
 	_save_all_chunks_to_file()
 
 func _save_all_chunks_to_file():
+	if not FileAccess.file_exists(CHUNKS_FILE):
+		FileAccess.open(CHUNKS_FILE, FileAccess.WRITE).close()
 	var file = FileAccess.open(CHUNKS_FILE, FileAccess.WRITE)
 	if file:
 		file.store_var(all_chunks)

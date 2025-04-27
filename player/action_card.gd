@@ -138,11 +138,11 @@ static func get_point_on_line(i: int, max: int) -> Vector2:
 	var index := i - int(max / 2)
 
 	if is_even(max):
-		bump.y = 30.0 / max(1.0, abs(index + 0.5))
+		bump.y = -30.0 / max(1.0, abs(index + 0.5))
 		return s + dir * (index * width + width * 0.5) + bump
 	else:
 		if index == 0:
-			bump.y = 55.0
+			bump.y = -35.0
 			return s + bump
 		else:
 			bump.y = 30.0 / max(1.0, abs(index))
