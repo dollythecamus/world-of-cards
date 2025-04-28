@@ -46,41 +46,56 @@ var EXAMPLE_DATA = {
 	},
 }
 
-var player_data = EXAMPLE_DATA
+var data = EXAMPLE_DATA
 
-signal spawned_player(data)
+signal spawned_player(player)
 
-var chunk = Vector2i()
-var indexed_pos = Vector2i(0, 0):
+var card := GridCard.new()
+
+var ontopof_card
+# ontopof_card = %World.get_card(chunk, indexed_pos)
+
+var chunk: Vector2i:
+	get():
+		return card.position.chunk
 	set(v):
-		if not v:
-			return
-		
-		indexed_pos = v
-		var chunk_offset = Vector2(chunk.x * WorldGenerator.SPACING_X * WorldGenerator.CHUNK_WIDTH, 
-			chunk.y * WorldGenerator.SPACING_Y * WorldGenerator.CHUNK_HEIGHT)
-		var centered = Vector2(indexed_pos.x * WorldGenerator.SPACING_X,
-			indexed_pos.y * WorldGenerator.SPACING_Y)
-		position = centered + chunk_offset
+		card.set_position(v, indexed_pos)
+		position = card.position.global
 
-func get_chunk():
-	return %World.get_chunk(position)
+var indexed_pos: Vector2i:
+	get():
+		return card.position.indexed_pos
+	set(v):
+		card.set_position(chunk, v)
+		position = card.position.global
+
+var global: Vector2:
+	get():
+		return card.position.global
+	set(v):
+		card.set_global_position(v)
+		position = v
 
 func _ready() -> void:
 	spawn_random_player_data()
 
 func spawn_random_player_data() -> void:
-	var random_character = GameData.gd.character_cards.pick_random()
-	var base_character = GameData.gd.BaseCharacter
+	var random_character = GameData.player.character_cards.pick_random()
+	var base_character = GameData.player.BaseCharacter
 	var actions = base_character.base_actions
 	actions.append_array(random_character.base_actions)
 	
-	player_data.character.character_card = random_character
-	player_data.actions = actions
+	data.character.character_card = random_character
+	data.actions = actions
 	
-	chunk.x = range(-1, 1).pick_random()
-	chunk.y = range(-1, 1).pick_random()
-	indexed_pos.x = range(WorldGenerator.CHUNK_WIDTH).pick_random()
-	indexed_pos.y = range(WorldGenerator.CHUNK_HEIGHT).pick_random()
+	var rand_chunk = Vector2i(range(-1, 1).pick_random(), range(-1, 1).pick_random())
+	var rand_pos = Vector2i(range(GridCard.CHUNK_SIZE.x).pick_random(), range(GridCard.CHUNK_SIZE.y).pick_random())
 	
-	spawned_player.emit(player_data)
+	chunk = rand_chunk
+	indexed_pos = rand_pos
+	
+	spawned_player.emit(self)
+
+func walk_to(target_chunk, target_indexed_pos):
+	chunk = target_chunk
+	indexed_pos = target_indexed_pos

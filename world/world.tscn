@@ -1,50 +1,78 @@
-[gd_scene load_steps=6 format=3 uid="uid://jdft6yahmoim"]
+[gd_scene load_steps=9 format=3 uid="uid://jdft6yahmoim"]
 
 [ext_resource type="Script" uid="uid://dde68fvlgjry3" path="res://world/world_generator.gd" id="1_tcf2h"]
 [ext_resource type="Script" uid="uid://cexnlkpfoo1um" path="res://player/cards_tray.gd" id="2_4717r"]
-[ext_resource type="Script" uid="uid://5inottefdrjy" path="res://player/player.gd" id="3_h5o24"]
-[ext_resource type="Texture2D" uid="uid://cu3fgcoqy14yf" path="res://icon.svg" id="3_mmdvd"]
+[ext_resource type="Script" uid="uid://25sg64c0m5lv" path="res://world/debug_draw.gd" id="2_fn3g3"]
+[ext_resource type="PackedScene" uid="uid://c7566xn3jafyi" path="res://player/player.tscn" id="3_mmdvd"]
 [ext_resource type="Script" uid="uid://2p4v1nfjhlg3" path="res://player/camera_controls.gd" id="4_h5o24"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mmdvd"]
+noise_type = 3
+frequency = 0.0474
+fractal_type = 0
+
+[sub_resource type="Gradient" id="Gradient_mmdvd"]
+colors = PackedColorArray(0.3, 0.2064, 0.084, 1, 0.34, 0.275173, 0.1904, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fn3g3"]
+gradient = SubResource("Gradient_mmdvd")
+width = 300
+height = 200
 
 [node name="Game" type="Node2D"]
 
-[node name="World" type="Node2D" parent="."]
+[node name="WorldCanvas" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="World" type="Node2D" parent="WorldCanvas"]
 unique_name_in_owner = true
-z_index = -500
+z_index = -10
 script = ExtResource("1_tcf2h")
+noise = SubResource("FastNoiseLite_mmdvd")
 
-[node name="Player" type="Node2D" parent="."]
+[node name="DebugDraw" type="Node2D" parent="WorldCanvas/World"]
+script = ExtResource("2_fn3g3")
+
+[node name="Player" parent="WorldCanvas" instance=ExtResource("3_mmdvd")]
 unique_name_in_owner = true
-position = Vector2(817, 439)
-script = ExtResource("3_h5o24")
+position = Vector2(360, -14)
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-texture = ExtResource("3_mmdvd")
-
-[node name="Label" type="Label" parent="Player"]
-offset_left = -36.0
-offset_top = 46.0
-offset_right = 36.0
-offset_bottom = 69.0
-text = "PLAYER :)"
-
-[node name="CardsTray" type="Node2D" parent="."]
+[node name="CardsTray" type="Node" parent="WorldCanvas"]
 unique_name_in_owner = true
 script = ExtResource("2_4717r")
 
-[node name="ColorRect" type="ColorRect" parent="CardsTray"]
-z_index = -200
-offset_left = -180.0
-offset_top = -110.0
-offset_right = 180.0
-offset_bottom = 110.0
-mouse_filter = 1
-color = Color(0.411496, 0.269628, 0.177532, 1)
+[node name="Sprite" type="Sprite2D" parent="WorldCanvas/CardsTray"]
+z_index = 10
+texture = SubResource("GradientTexture2D_fn3g3")
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="WorldCanvas"]
 unique_name_in_owner = true
 position = Vector2(520, 323)
 zoom = Vector2(0.5, 0.5)
 script = ExtResource("4_h5o24")
 
-[connection signal="spawned_player" from="Player" to="CardsTray" method="_on_spawned_player"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Debug" type="CheckButton" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_right = 98.0
+offset_bottom = 31.0
+text = "Debug"
+
+[node name="LoadAroundCamera" type="CheckButton" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 98.0
+offset_bottom = 71.0
+text = "Load Around Camera"
+
+[connection signal="spawned_player" from="WorldCanvas/Player" to="WorldCanvas/World" method="_on_spawned_player"]
+[connection signal="spawned_player" from="WorldCanvas/Player" to="WorldCanvas/CardsTray" method="_on_spawned_player"]
+[connection signal="toggled" from="CanvasLayer/UI/Debug" to="WorldCanvas/World/DebugDraw" method="_on_debug_toggled"]
+[connection signal="toggled" from="CanvasLayer/UI/LoadAroundCamera" to="WorldCanvas/World" method="_on_load_around_camera_toggled"]

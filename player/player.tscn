@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7566xn3jafyi"]
+
+[ext_resource type="Script" uid="uid://5inottefdrjy" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="Texture2D" uid="uid://cu3fgcoqy14yf" path="res://icon.svg" id="2_g1dw6"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_rkbax")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_g1dw6")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -36.0
+offset_top = 46.0
+offset_right = 36.0
+offset_bottom = 69.0
+text = "PLAYER :)"

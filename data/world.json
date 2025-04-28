@@ -1,0 +1,16 @@
+{
+    "type":"islands",
+    "islands": [
+        {
+            "distance":0,
+            "direction_angle":0,
+            "island_radius": 10,
+            "island_noise_scale": 0.01
+        },{
+            "distance": 40,
+            "direction_angle":75,
+            "island_radius": 4,
+            "island_noise_scale": 0.01
+        }
+    ]
+}

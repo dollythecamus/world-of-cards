@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3ndwyvswodvd"]
+[gd_scene load_steps=6 format=3 uid="uid://b3ndwyvswodvd"]
 
 [ext_resource type="Script" uid="uid://decxmnr70r84b" path="res://player/action/action_card.gd" id="1_b354u"]
+[ext_resource type="Script" uid="uid://r0yhcfkts8rk" path="res://Cards/DragCard.gd" id="2_ahdyf"]
 
 [sub_resource type="Gradient" id="Gradient_b354u"]
 colors = PackedColorArray(0.10267, 0.17385, 0.395686, 1, 1, 1, 1, 1)
@@ -19,6 +20,7 @@ size = Vector2(89, 140)
 script = ExtResource("1_b354u")
 
 [node name="Visual" type="Node2D" parent="."]
+z_index = 40
 
 [node name="Back" type="Sprite2D" parent="Visual"]
 
@@ -39,5 +41,11 @@ autowrap_mode = 3
 shape = SubResource("RectangleShape2D_b354u")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
-[connection signal="mouse_entered" from="." to="." method="_mouse_enter"]
-[connection signal="mouse_exited" from="." to="." method="_mouse_exit"]
+[node name="DragCard" type="Node" parent="."]
+script = ExtResource("2_ahdyf")
+group = 0
+visual_path = NodePath("../Visual")
+
+[connection signal="input_event" from="." to="DragCard" method="_input_event"]
+[connection signal="mouse_entered" from="." to="DragCard" method="_mouse_enter"]
+[connection signal="mouse_exited" from="." to="DragCard" method="_mouse_exit"]

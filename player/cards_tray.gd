@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 const ACTION_CARD_SCENE = preload("res://player/action/actionCard.tscn")
 
 # Adjust this to wherever you want the player hand to start
@@ -12,6 +12,10 @@ func spawn_action_hand(player_actions):
 		
 		add_child(card)
 
+func _process(_delta: float) -> void:
+	var pos = %Camera.position + Vector2(0, 400)
+	DragCard.set_group_position(0, pos)
+	$Sprite.position = pos 
 
-func _on_spawned_player(data: Variant) -> void:
-	spawn_action_hand(data.actions)
+func _on_spawned_player(player: Variant) -> void:
+	spawn_action_hand(player.data.actions)

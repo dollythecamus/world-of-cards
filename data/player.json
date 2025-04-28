@@ -7,17 +7,17 @@
 		},
 		{
 			"name": "Walk To",
-			"description": "Walk to an adjacent Card",
+			"description": "Walk to a neighbor Card",
 			"cost_currency": "time",
 			"cost": 5.0,
-			"condition": "player_adjacent"
+			"condition": "player_adjacent,explored"
 		},
 		{
 			"name": "Explore",
-			"description": "Uncover an adjacent Card",
+			"description": "Discover all neighbor cards",
 			"cost_currency": "time",
 			"cost": 10.0,
-			"condition": "player_adjacent"
+			"condition": "on_player"
 		},
 		{
 			"name": "Study",
