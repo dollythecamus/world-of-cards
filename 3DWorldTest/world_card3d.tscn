@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://856vuwwvgwes"]
+
+[ext_resource type="Script" uid="uid://o7bjfve6vuoq" path="res://3DWorldTest/world_card_3d.gd" id="1_txr3m"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q36to"]
+
+[node name="WorldCard" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_q36to")
+script = ExtResource("1_txr3m")

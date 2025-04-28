@@ -1,5 +1,5 @@
 extends Node
-class_name WorldGenerator
+class_name WorldGenerator3D
 
 @export var card_scene: PackedScene
 const CHUNKS_FILE = "user://chunks.save"
@@ -13,7 +13,7 @@ var world_cards = [] # bi dimensional array
 @export var noise : Noise
 @onready var player = %Player
 
-var load_target = GridCard.get_position_from_global(Vector2(0, 0))
+var load_target = GridCard3D.get_position_from_global(Vector3.ZERO)
 var target 
 
 var permanent_cards = {} # TODO: important structures always get loaded so the player knows where they are
@@ -23,6 +23,8 @@ const UNLOAD_DISTANCE = 6
 
 func _ready():
 	set_process(false)
+	
+	load_chunks_around_target(5)
 	
 	#_load_all_chunks_from_file()
 
@@ -45,7 +47,7 @@ func _load_all_chunks_from_file():
 		file.close()
 
 func _process(_delta):
-	load_target = get_target(target)
+	#load_target = get_target(target)
 	load_chunks_around_target()
 	# Unload chunks that are too far based on distance
 	var max_distance = UNLOAD_DISTANCE  # Maximum distance in chunks to keep loaded
@@ -133,18 +135,20 @@ func generate_chunk(chunk):
 						var island_center = (dis * GridCard.OFFSET) * dir
 						
 						var reference = island_center as Vector2
-						var n = noise.get_noise_2dv(card.global)
+						#var n = noise.get_noise_2dv(card.global)
+						var n = 0
 						var effective_distance = (n + radius) * GridCard.OFFSET.length()
-						if card.global.distance_to(reference) < effective_distance:
-							card.data.biome = WorldCard.Biomes.FOREST
+						#if card.global.distance_to(reference) < effective_distance:
+						#	card.data.biome = WorldCard.Biomes.FOREST
 					else:
 						
 						# generate some island around the player (distance zero)
 						var reference = player.global
-						var n = noise.get_noise_2dv(card.global)
+						#var n = noise.get_noise_2dv(card.global)
+						var n = 0
 						var effective_distance = (n + radius) * GridCard.OFFSET.length()
-						if card.global.distance_to(reference) < effective_distance:
-							card.data.biome = WorldCard.Biomes.FOREST
+						#if card.global.distance_to(reference) < effective_distance:
+						#	card.data.biome = WorldCard.Biomes.FOREST
 			
 			add_child(card)
 			loaded_chunks[chunk][card.indexed_pos] = card

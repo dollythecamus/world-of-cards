@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://jdft6yahmoim"]
+[gd_scene load_steps=10 format=3 uid="uid://jdft6yahmoim"]
 
 [ext_resource type="Script" uid="uid://dde68fvlgjry3" path="res://world/world_generator.gd" id="1_tcf2h"]
 [ext_resource type="Script" uid="uid://cexnlkpfoo1um" path="res://player/cards_tray.gd" id="2_4717r"]
 [ext_resource type="Script" uid="uid://25sg64c0m5lv" path="res://world/debug_draw.gd" id="2_fn3g3"]
+[ext_resource type="PackedScene" uid="uid://crjphf7f3pcep" path="res://world/world_card/world_card.tscn" id="2_sc4t8"]
 [ext_resource type="PackedScene" uid="uid://c7566xn3jafyi" path="res://player/player.tscn" id="3_mmdvd"]
 [ext_resource type="Script" uid="uid://2p4v1nfjhlg3" path="res://player/camera_controls.gd" id="4_h5o24"]
 
@@ -16,8 +17,8 @@ colors = PackedColorArray(0.3, 0.2064, 0.084, 1, 0.34, 0.275173, 0.1904, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_fn3g3"]
 gradient = SubResource("Gradient_mmdvd")
-width = 300
-height = 200
+width = 600
+height = 400
 
 [node name="Game" type="Node2D"]
 
@@ -28,6 +29,7 @@ follow_viewport_enabled = true
 unique_name_in_owner = true
 z_index = -10
 script = ExtResource("1_tcf2h")
+card_scene = ExtResource("2_sc4t8")
 noise = SubResource("FastNoiseLite_mmdvd")
 
 [node name="DebugDraw" type="Node2D" parent="WorldCanvas/World"]

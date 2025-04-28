@@ -1,0 +1,46 @@
+[gd_scene load_steps=10 format=3 uid="uid://cemot5icov53p"]
+
+[ext_resource type="Script" uid="uid://b8rsrdnufcxre" path="res://3DWorldTest/world_generator3D.gd" id="1_k7hgg"]
+[ext_resource type="PackedScene" uid="uid://856vuwwvgwes" path="res://3DWorldTest/world_card3d.tscn" id="2_046oj"]
+[ext_resource type="Script" uid="uid://dlr2vlh1le8m2" path="res://3DWorldTest/player.gd" id="3_k7hgg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1lstn"]
+albedo_color = Color(0.26, 0.213417, 0.1482, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2atg6"]
+material = SubResource("StandardMaterial3D_1lstn")
+size = Vector2(500, 500)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hkgxf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k7hgg"]
+
+[sub_resource type="Sky" id="Sky_hkgxf"]
+sky_material = SubResource("ProceduralSkyMaterial_k7hgg")
+
+[sub_resource type="Environment" id="Environment_pxhsx"]
+background_mode = 2
+sky = SubResource("Sky_hkgxf")
+
+[node name="3dWorld" type="Node3D"]
+
+[node name="Tabletop" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_2atg6")
+
+[node name="3DWorld" type="Node" parent="."]
+script = ExtResource("1_k7hgg")
+card_scene = ExtResource("2_046oj")
+noise = SubResource("FastNoiseLite_hkgxf")
+
+[node name="Player" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_k7hgg")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.962541, 0.271138, 0, -0.271138, 0.962541, 0, 3.2486, 3.38997)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pxhsx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 0.570728, 0.821139, 0, -0.821139, 0.570728, 0, 0, 0)
