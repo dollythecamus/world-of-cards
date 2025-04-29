@@ -52,7 +52,16 @@ static func get_position_from_global(global : Vector2i):
 	var indexed_pos = (global - chunk_offset) / OFFSET
 	return {"chunk":chunk, "indexed_pos":indexed_pos, "global": global}
 
+static func get_globaL_from_position(chunk, indexed_pos):
+	var chunk_offset = chunk * OFFSET * CHUNK_SIZE
+	var centered = indexed_pos * OFFSET
+	return centered + chunk_offset
+	
 static func get_relative(pos0, pos1):
+	# calculating a distance with the global positions and converting them to distance in ammount of cards
+	var distance = (pos1.global - pos0.global) / OFFSET
+	
 	return {'chunk':pos1.chunk - pos0.chunk, 
 	'indexed_pos':pos1.indexed_pos - pos0.indexed_pos,
-	'global': pos1.global - pos0.global}
+	'global': pos1.global - pos0.global,
+	'distance':distance.length()}

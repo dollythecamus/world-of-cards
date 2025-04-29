@@ -24,3 +24,27 @@ they could play in the same world but with a different character
 
 have actions take time
 with the passage of time, player gets old
+
+
+
+func correct_position(chunk, indexed_pos):
+	# Check if the indexed_position is outside the current chunk and correct the position
+	# even if the indexed_pos is outside two or more chunks, it will correct it
+	var p = indexed_pos
+	var c = chunk
+	
+	if p.x < 0:
+		c.x -= 1
+		p.x = Chunk.SIZE.x + p.x 
+	elif p.x >= Chunk.SIZE.x:
+		c.x += 1
+		p.x = Chunk.SIZE.x - p.x
+
+	if p.y < 0:
+		c.y -= 1
+		p.y = Chunk.SIZE.y + p.y 
+	elif p.y >= Chunk.SIZE.y:
+		c.y += 1
+		p.y = Chunk.SIZE.y - p.y
+	
+	return {'chunk': c, 'indexed_pos':p}

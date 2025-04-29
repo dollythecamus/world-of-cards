@@ -17,6 +17,9 @@ var card := GridCard.new()
 @onready var visual_back = $Visual/Back
 @onready var visual_front = $Visual/Front
 
+var card_position:= {}:
+	get():
+		return card.position
 var chunk: Vector2i:
 	get():
 		return card.position.chunk
@@ -38,6 +41,7 @@ var global: Vector2:
 
 func _ready() -> void:
 	update_visual()
+	visual_front.texture = get_texture()
 
 func flip(up = true):
 	if up:
@@ -65,14 +69,12 @@ func update_visual():
 		visual_front.z_index = 1
 		visual.modulate = debug_color
 		visual_front.modulate = Color(1.0 , 1.0, 1.0, 1.0)
-		visual_front.texture = get_texture()
 		return
 
 	if is_face_up:
 		visual_back.z_index = -1
 		visual_front.z_index = 1
 		visual_front.modulate = Color(1.0 , 1.0, 1.0, 1.0)
-		visual_front.texture = get_texture()
 		visual.modulate = Color(1.0 , 1.0, 1.0, 1.0)
 	else:
 		visual_back.z_index = 1
