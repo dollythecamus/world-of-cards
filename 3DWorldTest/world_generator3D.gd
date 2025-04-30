@@ -23,9 +23,7 @@ const UNLOAD_DISTANCE = 6
 
 func _ready():
 	set_process(false)
-	
-	load_chunks_around_target(5)
-	
+	load_chunks_around_target(2)
 	#_load_all_chunks_from_file()
 
 func _exit_tree():
@@ -171,40 +169,18 @@ func get_neighbors(card, distance = 1, cross = false):
 				continue  # Skip the card itself
 			
 			var pos = Vector2i(card.indexed_pos.x + dx, card.indexed_pos.y + dy)
-			var n = correct_neighbors(current_chunk, pos)
+			var n = GridCard3D.correct_position(current_chunk, pos)
 			
 			if loaded_chunks.has(n.chunk) and loaded_chunks[n.chunk][n.indexed_pos]:
 				neighbors.append(loaded_chunks[n.chunk][n.indexed_pos])
 	return neighbors
 
-func correct_neighbors(chunk, indexed_pos):
-	# Check if the indexed_position is outside the current chunk and correct the position
-	
-	var p = indexed_pos
-	var c = chunk
-	
-	if p.x < 0:
-		p.x = Chunk.SIZE.x - 1
-		c.x -= 1
-	elif p.x >= Chunk.SIZE.x:
-		p.x = 0
-		c.x += 1
-
-	if p.y < 0:
-		p.y = Chunk.SIZE.y - 1
-		c.y -= 1
-	elif p.y >= Chunk.SIZE.y:
-		p.y = 0
-		c.y += 1
-	
-	return {'chunk': c, 'indexed_pos':p}
-
 func load_chunks_around_target(render_distance = RENDER_DISTANCE):
 	if not is_loaded(load_target.chunk):
 		load_chunk(load_target.chunk)
 	
-	for dx in range(-render_distance, render_distance):  # Load chunks in a 5x5 grid around the player
-		for dy in range(-render_distance, render_distance):
+	for dx in range(-render_distance+1, render_distance):  # Load chunks in a grid around the target
+		for dy in range(-render_distance+1, render_distance):
 			var d = Vector2i(dx, dy)
 			if not is_loaded(load_target.chunk + d): # only loads new chunks when the player moved to an unloaded place 
 				load_chunk(load_target.chunk + d)

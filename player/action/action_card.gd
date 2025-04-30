@@ -5,18 +5,28 @@ var data = {}
 
 @onready var label = $Visual/Front/Label
 
+var shortcut_input:
+	get():
+		if data.has('shortcut'):
+			return data.shortcut
+		return null
+
 func _ready() -> void:
 	set_visuals()
 
 func set_visuals():
 	label.text = data.name + "\n" + data.description
 
-func dropped():
+func dropped(override_position = position):
 	var dropped_on_card = null
 	var closest_distance = INF
-
+	
+	position = override_position if override_position != position else position
 	for area in get_overlapping_areas():
-		var distance = position.distance_to(area.global_position)
+		if not area is WorldCard:
+			continue 
+		
+		var distance = override_position.distance_to(area.global_position)
 		if distance < closest_distance:
 			closest_distance = distance
 			dropped_on_card = area
@@ -42,4 +52,4 @@ func player_adjacent(card):
 	var player = get_parent().get_node("%Player")
 	var world = get_parent().get_node("%World")
 	var player_card = world.get_card(player.chunk, player.indexed_pos)
-	return card in world.get_neighbors(player_card)
+	return card in world.get_neighbors(player_card, data.range)

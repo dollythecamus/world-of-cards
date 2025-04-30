@@ -93,7 +93,7 @@ func is_pos_over(pos) -> bool:
 	return visual_back.get_rect().has_point(pos)
 
 func action(action_card):
-	var neighbors = get_parent().get_neighbors(self, 1, true)
+	var neighbors = get_parent().get_neighbors(self, 10, true)
 	var player = get_parent().get_node("%Player")
 	
 	if action_card.data.name == "Explore":

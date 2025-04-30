@@ -22,7 +22,7 @@ sky_material = SubResource("ProceduralSkyMaterial_k7hgg")
 background_mode = 2
 sky = SubResource("Sky_hkgxf")
 
-[node name="3dWorld" type="Node3D"]
+[node name="World" type="Node"]
 
 [node name="Tabletop" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_2atg6")
@@ -38,6 +38,7 @@ script = ExtResource("3_k7hgg")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.962541, 0.271138, 0, -0.271138, 0.962541, 0, 3.2486, 3.38997)
+current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pxhsx")

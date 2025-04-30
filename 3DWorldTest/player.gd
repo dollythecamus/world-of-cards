@@ -8,14 +8,12 @@ var chunk: Vector2i:
 	set(v):
 		card.set_position(v, indexed_pos)
 		position = card.position.global
-
 var indexed_pos: Vector2i:
 	get():
 		return card.position.indexed_pos
 	set(v):
 		card.set_position(chunk, v)
 		position = card.position.global
-
 var global: Vector3:
 	get():
 		return card.position.global

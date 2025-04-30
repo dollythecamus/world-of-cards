@@ -153,16 +153,16 @@ func is_loaded(chunk):
 func get_card(chunk, pos):
 	return loaded_chunks[chunk][pos]
 
-func get_neighbors(card, distance = 1, is_circle = false, radius = distance):
+func get_neighbors(card, distance = 2, is_circle = false, radius = distance - 1):
 	var neighbors = []
 
-	for dx in range(-distance, distance + 1):
-		for dy in range(-distance, distance + 1):
+	for dx in range(-distance+1, distance):
+		for dy in range(-distance+1, distance):
 			if dx == 0 and dy == 0:
 				continue  # Skip the card itself
 			
 			var pos = Vector2i(card.indexed_pos.x + dx, card.indexed_pos.y + dy)
-			var n = correct_position(card.chunk, pos)
+			var n = GridCard.correct_position(card.chunk, pos)
 			
 			# card.card_position is strange maybe correct that 
 			if is_circle && GridCard.get_relative(card.card_position, n).distance > radius: # skip outside of a radius
@@ -172,58 +172,24 @@ func get_neighbors(card, distance = 1, is_circle = false, radius = distance):
 				neighbors.append(loaded_chunks[n.chunk][n.indexed_pos])
 	return neighbors
 
-func correct_position(chunk: Vector2i, indexed_pos: Vector2i) -> Dictionary:
-	# Given a base chunk coordinate and an “indexed” (tile) position that
-	# may lie outside that chunk by any number of chunks, compute:
-	#   • the adjusted chunk coords
-	#   • the wrapped “local” tile position within [0..SIZE)
-	#
-	# e.g. chunk=(0,0), indexed_pos=(24,0), SIZE=(10,10):
-	#   dx = 24 / 10 = 2 chunks to the right
-	#   new_pos.x = 24 % 10 = 4
-	#   → chunk=(2,0), pos=(4,0)
-	#
-	var size = Chunk.SIZE  # assume a Vector2i
-	var p = indexed_pos
-	var c = chunk
-
-	# compute how many chunks to move in x, and wrap p.x into [0..size.x)
-	var dx = int(floor(p.x / size.x))
-	p.x = int(p.x % size.x)
-	if p.x < 0:
-		# fix negatives
-		p.x += size.x
-		dx -= 1
-	c.x += dx
-
-	# same for y
-	var dy = int(floor(p.y / size.y))
-	p.y = int(p.y % size.y)
-	if p.y < 0:
-		p.y += size.y
-		dy -= 1
-	c.y += dy
-
-	return {'chunk': c, 'indexed_pos':p, 'global':GridCard.get_globaL_from_position(c, p)}
-
 func load_chunks_around_target(render_distance = RENDER_DISTANCE):
 	if not is_loaded(load_target.chunk):
 		load_chunk(load_target.chunk)
 	
-	for dx in range(-render_distance, render_distance + 1):  # Load chunks in a grid around the target
-		for dy in range(-render_distance, render_distance + 1):
+	for dx in range(-render_distance+1, render_distance):  # Load chunks in a grid around the target
+		for dy in range(-render_distance+1, render_distance):
 			var d = Vector2i(dx, dy)
 			if not is_loaded(load_target.chunk + d): # only loads new chunks when the player moved to an unloaded place 
 				load_chunk(load_target.chunk + d)
 
-func load_chunks_around_player():
+func load_chunks_around_player(render_distance = RENDER_DISTANCE):
 	load_target = get_target(player)
-	load_chunks_around_target()
+	load_chunks_around_target(render_distance)
 	get_card(player.chunk, player.indexed_pos).flip()
 
 func _on_spawned_player(_player: Variant) -> void:
 	player = _player
-	load_chunks_around_player()
+	load_chunks_around_player(6)
 
 class Chunk:
 	const SIZE = Vector2i(10, 10)
@@ -241,5 +207,5 @@ func _on_load_around_camera_toggled(toggled_on: bool) -> void:
 		set_process(true)
 	else:
 		target = player
-		load_chunks_around_target(2)
+		load_chunks_around_target(6)
 		set_process(false)

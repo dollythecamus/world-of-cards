@@ -26,6 +26,7 @@ var angular_velocity := 0.0
 const VELOCITY_THRESHOLD = 200.0
 
 var drag_speed := 35.0
+var acceleration := 1000.0
 var angular_speed := 255.0
 var mouse_over_offset := Vector2(0, -20)
 var is_close_threshold := 21.0
@@ -74,22 +75,31 @@ func _process(delta):
 			velocity = target_position(velocity, card.position, sorted_position)
 			sprite_velocity = target_position(sprite_velocity, visual.position, sprite_rest_position + mouse_over_offset)
 			angular_velocity = target_rotation(angular_velocity, visual.rotation, 0.0)
+		
 		else:
 			velocity = target_position(velocity, card.position, sorted_position)
 			sprite_velocity = target_position(sprite_velocity, visual.position, sprite_rest_position)
 			angular_velocity = target_rotation(angular_velocity, visual.rotation, sorted_rotation)
+	
 	else:
 		var target = card.get_global_mouse_position()
 		velocity = target_position(velocity, card.position, target)
 		sprite_velocity = target_position(sprite_velocity, visual.position, sprite_rest_position)
 		angular_velocity = target_rotation(angular_velocity, visual.rotation, 0.0)
 	
+	# target to input
+	if card.shortcut_input != null:
+		if Input.is_action_pressed(card.shortcut_input):
+			var target = card.get_global_mouse_position()
+			card.position = target
+			return
+	
 	visual.rotation += angular_velocity * angular_speed * delta
 	visual.position += sprite_velocity * drag_speed * delta
 	card.position += velocity * drag_speed * delta
 
 func target_position(vel: Vector2, current: Vector2, target: Vector2) -> Vector2:
-	return vel.move_toward(target - current, drag_speed);
+	return vel.move_toward(target - current, acceleration);
 
 func target_rotation(vel : float, current: float, target: float) -> float:
 	var difference = angle_difference(deg_to_rad(current), deg_to_rad(target));

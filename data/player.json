@@ -9,6 +9,8 @@
 			"name": "Walk To",
 			"description": "Walk to a neighbor Card",
 			"cost_currency": "time",
+			"shortcut": "W_shortcut",
+			"range":10,
 			"cost": 5.0,
 			"condition": "player_adjacent,explored"
 		},
@@ -16,6 +18,7 @@
 			"name": "Explore",
 			"description": "Discover all neighbor cards",
 			"cost_currency": "time",
+			"shortcut": "E_shortcut",
 			"cost": 10.0,
 			"condition": "on_player"
 		},
